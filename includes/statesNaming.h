@@ -89,34 +89,6 @@ static String getResponseDescriptionByParams(byte status){
 	}
 }
 
-enum E220_UART_PARITY
-{
-  MODE_00_8N1 = 0b00,
-  MODE_01_8O1 = 0b01,
-  MODE_10_8E1 = 0b10,
-  MODE_11_8N1 = 0b11
-};
-
-static String getUARTParityDescriptionByParams(byte uartParity){
-	switch (uartParity)
-	{
-	  case MODE_00_8N1:
-		return F("8N1 (Default)");
-		break;
-	  case MODE_01_8O1:
-		return F("8O1");
-		break;
-	  case MODE_10_8E1:
-		return F("8E1");
-		break;
-	  case MODE_11_8N1:
-		return F("8N1 (equal to 00");
-		break;
-	  default:
-		return F("Invalid UART Parity!");
-	}
-}
-
 enum UART_BPS_TYPE
 {
   UART_BPS_1200 = 0b000,
@@ -176,14 +148,24 @@ static String getUARTBaudRateDescriptionByParams(byte uartBaudRate)
 
 enum AIR_DATA_RATE
 {
-  AIR_DATA_RATE_000_24 = 0b000,
-  AIR_DATA_RATE_001_24 = 0b001,
-  AIR_DATA_RATE_010_24 = 0b010,
-  AIR_DATA_RATE_011_48 = 0b011,
-  AIR_DATA_RATE_100_96 = 0b100,
-  AIR_DATA_RATE_101_192 = 0b101,
-  AIR_DATA_RATE_110_384 = 0b110,
-  AIR_DATA_RATE_111_625 = 0b111
+  AIR_DATA_RATE_15625_5_125 = 0b00000,
+  AIR_DATA_RATE_9375_6_125 = 0b00100,
+  AIR_DATA_RATE_5469_7_125 = 0b01000,
+  AIR_DATA_RATE_3125_8_125 = 0b01100,
+  AIR_DATA_RATE_1758_9_125 = 0b10000,
+  AIR_DATA_RATE_31250_5_250 = 0b00001,
+  AIR_DATA_RATE_18750_6_250 = 0b00101,
+  AIR_DATA_RATE_10938_7_250 = 0b01001,
+  AIR_DATA_RATE_6250_8_250 = 0b01101,
+  AIR_DATA_RATE_3516_9_250 = 0b10001,
+  AIR_DATA_RATE_1953_10_250 = 0b10101,
+  AIR_DATA_RATE_62500_5_500 = 0b00010,
+  AIR_DATA_RATE_37500_6_500 = 0b00110,
+  AIR_DATA_RATE_21875_7_500 = 0b01010,
+  AIR_DATA_RATE_12500_8_500 = 0b01110,
+  AIR_DATA_RATE_7031_9_500 = 0b10010,
+  AIR_DATA_RATE_3906_10_500 = 0b10110,
+  AIR_DATA_RATE_2148_11_500 = 0b11010,
 };
 
 
@@ -191,29 +173,59 @@ static String getAirDataRateDescriptionByParams(byte airDataRate)
 {
 	switch (airDataRate)
 	{
-	  case AIR_DATA_RATE_000_24:
-		return F("2.4kbps");
+	  case AIR_DATA_RATE_15625_5_125:
+		return F("15,625bps SF:5 BW:125kHz");
 		break;
-	  case AIR_DATA_RATE_001_24:
-		return F("2.4kbps");
+	  case AIR_DATA_RATE_9375_6_125:
+		return F("9,375bps SF:6 BW:125kHz");
 		break;
-	  case AIR_DATA_RATE_010_24:
-		return F("2.4kbps (default)");
+	  case AIR_DATA_RATE_5469_7_125:
+		return F("5,469bps SF:7 BW:125kHz");
 		break;
-	  case AIR_DATA_RATE_011_48:
-		return F("4.8kbps");
+	  case AIR_DATA_RATE_3125_8_125:
+		return F("3,125bps SF:8 BW:125kHz");
 		break;
-	  case AIR_DATA_RATE_100_96:
-		return F("9.6kbps");
+	  case AIR_DATA_RATE_1758_9_125:
+		return F("1,758bps SF:9 BW:125kHz");
 		break;
-	  case AIR_DATA_RATE_101_192:
-		return F("19.2kbps");
+	  case AIR_DATA_RATE_31250_5_250:
+		return F("31,250bps SF:5 BW:250kHz");
 		break;
-	  case AIR_DATA_RATE_110_384:
-		return F("38.4kbps");
+	  case AIR_DATA_RATE_18750_6_250:
+		return F("18,750bps SF:6 BW:250kHz");
 		break;
-	  case AIR_DATA_RATE_111_625:
-		return F("62.5kbps");
+	  case AIR_DATA_RATE_10938_7_250:
+		return F("10,938bps SF:7 BW:250kHz");
+		break;
+	  case AIR_DATA_RATE_6250_8_250:
+		return F("6,250bps SF:8 BW:250kHz");
+		break;
+	  case AIR_DATA_RATE_3516_9_250:
+		return F("3,516bps SF:9 BW:250kHz");
+		break;
+	  case AIR_DATA_RATE_1953_10_250:
+		return F("1,953bps SF:10 BW:250kHz");
+		break;
+	  case AIR_DATA_RATE_62500_5_500:
+		return F("62,500bps SF:5 BW:500kHz (default)");
+		break;
+	  case AIR_DATA_RATE_37500_6_500:
+		return F("37,500bps SF:6 BW:500kHz");
+		break;
+	  case AIR_DATA_RATE_21875_7_500:
+		return F("21,875bps SF:7 BW:500kHz");
+		break;
+	  case AIR_DATA_RATE_12500_8_500:
+		return F("12,500bps SF:8 BW:500kHz");
+		break;
+	  case AIR_DATA_RATE_7031_9_500:
+		return F("7,031bps SF:9 BW:500kHz");
+		break;
+	  case AIR_DATA_RATE_3906_10_500:
+		return F("3,906bps SF:10 BW:500kHz");
+		break;
+	  case AIR_DATA_RATE_2148_11_500:
+		return F("2,148bps SF:11 BW:500kHz");
 		break;
 	  default:
 		return F("Invalid Air Data Rate!");
@@ -433,10 +445,10 @@ static String getFixedTransmissionDescriptionByParams(byte fixedTransmission)
 #else
 	enum TRANSMISSION_POWER
 	{
-	  POWER_22 = 0b00,
-	  POWER_17 = 0b01,
-	  POWER_13 = 0b10,
-	  POWER_10 = 0b11
+	  POWER_13 = 0b00,
+	  POWER_12 = 0b01,
+	  POWER_7 = 0b10,
+	  POWER_0 = 0b11
 
 	};
 
@@ -444,17 +456,17 @@ static String getFixedTransmissionDescriptionByParams(byte fixedTransmission)
 	{
 		switch (transmissionPower)
 		{
-		  case POWER_22:
-			return F("22dBm (Default)");
-			break;
-		  case POWER_17:
-			return F("17dBm");
-			break;
 		  case POWER_13:
-			return F("13dBm");
+			return F("13dBm (Default)");
 			break;
-		  case POWER_10:
-			return F("10dBm");
+		  case POWER_12:
+			return F("12dBm");
+			break;
+		  case POWER_7:
+			return F("7dBm");
+			break;
+		  case POWER_0:
+			return F("0dBm");
 			break;
 		  default:
 			return F("Invalid transmission power param");

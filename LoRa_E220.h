@@ -115,14 +115,9 @@ enum PACKET_LENGHT {
 
 #pragma pack(push, 1)
 struct Speed {
-	uint8_t airDataRate :3; //bit 0-2
+	uint8_t airDataRate: 5; //bit 0-4
 	String getAirDataRateDescription() {
 		return getAirDataRateDescriptionByParams(this->airDataRate);
-	}
-
-	uint8_t uartParity :2; //bit 3-4
-	String getUARTParityDescription() {
-		return getUARTParityDescriptionByParams(this->uartParity);
 	}
 
 	uint8_t uartBaudRate :3; //bit 5-7
@@ -137,12 +132,7 @@ struct TransmissionMode {
 	String getWORPeriodByParamsDescription() {
 		return getWORPeriodByParams(this->WORPeriod);
 	}
-	byte reserved2 :1; //bit 3
-	byte enableLBT :1; //bit 4
-	String getLBTEnableByteDescription() {
-		return getLBTEnableByteByParams(this->enableLBT);
-	}
-	byte reserved :1; //bit 5
+	byte reserved :3; //bit 3-5
 
 	byte fixedTransmission :1; //bit 6
 	String getFixedTransmissionDescription() {
